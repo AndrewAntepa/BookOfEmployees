@@ -82,6 +82,8 @@ public class Main {
         }
     }
 
+    //TODO второй блок
+
     public static void indexTheSalary(Employee[] employees, int index){
         for(Employee employee : employees){
             int salary = employee.getSalary();
@@ -89,4 +91,6 @@ public class Main {
             employee.setSalary(newSalary);
         }
     }
+
+
 }
