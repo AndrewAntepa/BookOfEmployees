@@ -10,22 +10,21 @@ public class EmployeeBook {
         if(isNoEmployees()) return "Сотрудники не найдены";
         StringBuilder allEmployees = new StringBuilder();
         for(Employee employee : employees){
-            allEmployees.append(employee.toString()).append("\n");
+            allEmployees.append(employee).append("\n");
         }
         return allEmployees.toString();
     }
     //получает всех сотрудников в отделе
-    public void getAllEmployees(String department){
-        if(isNoEmployees()){
-            System.out.println("Сотрудников нет");
-            return;
-        }
-        System.out.println("Сотрудники из отдела " + department + ":");
+    public String getAllEmployees(String department){
+        if(isNoEmployees()) return "Сотрудников нет";
+        StringBuilder allEmployees = new StringBuilder();
+        allEmployees.append("Сотрудники из отдела ").append(department).append(":");
         for(Employee employee : employees){
             if(employee.getDepartment().equals(department)){
-                System.out.println(employee.getFullName() + ", id = " + employee.getId() + ", зарплата: " + employee.getSalary());
+                allEmployees.append(employee).append("\n");
             }
         }
+        return allEmployees.toString();
     }
 
     //сумма затрат на зп
@@ -177,7 +176,7 @@ public class EmployeeBook {
     }
 
     //у кого зп больше
-    public void employeesMoreLessSalary(int salary){
+    public void employeesWithMoreSalary(int salary){
         if(isNoEmployees()) return;
         System.out.println("Сотрудники, чья зарплата больше " + salary + ":");
         for (Employee employee : employees){
@@ -188,14 +187,12 @@ public class EmployeeBook {
     }
 
     //добавление новых сотрудников
-    public Boolean addEmployee(String fullName, String department, int salary){
+    public void addEmployee(String fullName, String department, int salary){
         for(int i = 0; i < employees.length; i++){
             if (employees[i] == null){
                 employees[i] = new Employee(fullName, department, salary);
-                return true;
             }
         }
-        return false;
     }
 
     //удаление сотрудников
@@ -208,7 +205,7 @@ public class EmployeeBook {
         }
     }
 
-    public String getId(int id){
+    public String getEmployeeById(int id){
         for(Employee employee : employees){
             if (employee.getId() == id){
                 return employee.toString();
