@@ -21,6 +21,8 @@ public class Main {
 
         indexTheSalary(employees, 10);
         System.out.println(getAllEmployees(employees));
+        System.out.println();
+        System.out.println(minSalaryInDepartment(employees, "3"));
 
     }
 
@@ -92,5 +94,93 @@ public class Main {
         }
     }
 
+    public static String minSalaryInDepartment(Employee[] employees, String department){
+        if(employees.length == 0) return "Сотрудники не найдены";
+        int min = employees[0].getSalary();
+        String employeeWithMinSalary = "";
+        for(Employee employee : employees){
+            if(employee.getSalary() < min && employee.getDepartment().equals(department)){
+                min = employee.getSalary();
+                employeeWithMinSalary = employee.getFullName() + ", id = " + employee.getId();
+            }
+        }
+        return "Сотрудник с минимальной ЗП в отделе " + department + ": " + employeeWithMinSalary;
+    }
 
+    public static String maxSalaryInDepartment(Employee[] employees, String department){
+        if(employees.length == 0) return "Сотрудники не найдены";
+        int max = 0;
+        String employeeWithMinSalary = "";
+        for(Employee employee : employees){
+            if(employee.getSalary() > max && employee.getDepartment().equals(department)){
+                max = employee.getSalary();
+                employeeWithMinSalary = employee.getFullName() + ", id = " + employee.getId();
+            }
+        }
+        return "Сотрудник с минимальной ЗП в отделе " + department + ": " + employeeWithMinSalary;
+    }
+
+    public static int fullSalaryInDepartment(Employee[] employees, String department){
+        if(employees.length == 0) return -1;
+        int fullSalary = 0;
+        for(Employee employee : employees){
+            if (employee.getDepartment().equals(department)){
+                fullSalary += employee.getSalary();
+            }
+        }
+        return fullSalary;
+    }
+
+    public static int countEmployeesInDepartment(Employee[] employees, String department){
+        int countEmployees = 0;
+        for(Employee employee : employees){
+            if(employee.getDepartment().equals(department)){
+                countEmployees++;
+            }
+        }
+        return countEmployees;
+    }
+
+    public static double averageSalaryInDepartment(Employee[] employees, String department){
+        int fullSalary = fullSalaryInDepartment(employees, department);
+        int countEmployees = countEmployeesInDepartment(employees, department);
+        return (double) fullSalary / countEmployees;
+    }
+
+    public static void indexInDepartment(Employee[] employees,String department, int index){
+        for(Employee employee : employees){
+            if(employee.getDepartment().equals(department)) {
+                int salary = employee.getSalary();
+                int newSalary = salary * (100 + index) / 100;
+                employee.setSalary(newSalary);
+            }
+        }
+    }
+
+    public static void showEmployeesInDepartment(Employee[] employees, String department){
+        System.out.println("Сотрудники из отдела " + department + ":");
+        for(Employee employee : employees){
+            if(employee.getDepartment().equals(department)){
+                System.out.println(employee.getFullName() + ", id = " + employee.getId() + ", зарплата: " + employee.getSalary());
+            }
+        }
+    }
+
+    public static void employeesWithLessSalary(Employee[] employees, int salary){
+        System.out.println("Сотрудники, чья зарплата меньше " + salary + ":");
+        for (Employee employee : employees){
+            if(employee.getSalary() < salary){
+                System.out.println(employee.getFullName() + ", id = " + employee.getId() + ", зарплата: " + employee.getSalary());
+            }
+        }
+    }
+
+    public static void employeesMoreLessSalary(Employee[] employees, int salary){
+        System.out.println("Сотрудники, чья зарплата меньше " + salary + ":");
+        for (Employee employee : employees){
+            if(employee.getSalary() > salary){
+                System.out.println(employee.getFullName() + ", id = " + employee.getId() + ", зарплата: " + employee.getSalary());
+            }
+        }
+    }
 }
