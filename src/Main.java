@@ -2,148 +2,54 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
+        EmployeeBook employeeBook = new EmployeeBook(10);
 
-        System.out.println("Сколько сотрудников будет?");
+        employeeBook.addEmployee(new Employee("Andrew", "A", 1000));
+        employeeBook.addEmployee(new Employee("John", "B", 2000));
+        employeeBook.addEmployee(new Employee("Mark", "C", 3000));
+        employeeBook.addEmployee(new Employee("Jack", "A", 4000));
+        employeeBook.addEmployee(new Employee("Bob", "B", 5000));
+        employeeBook.addEmployee(new Employee("Tom", "C", 6000));
+        employeeBook.addEmployee(new Employee("Lily", "A", 7000));
+        employeeBook.addEmployee(new Employee("Alex", "B", 8000));
+        employeeBook.addEmployee(new Employee("Max", "C", 9000));
+        employeeBook.addEmployee(new Employee("Maxim", "C", 10000));
 
-        EmployeeBook employeeBook = new EmployeeBook(scanner.nextInt());
+        employeeBook.deleteEmployee(4);
+        employeeBook.addEmployee(new Employee("Marina", "C", 11000));
+        employeeBook.getAllEmployees();
 
-        System.out.println("""
-                1. Добавление сотрудника
-                2. Удаление сотрудника
-                3. Получить все данные сотрудников
-                4. Получить имена сотрудников
-                5. Сумма всех расходов на ЗП
-                6. Минимальная ЗП
-                7. Максимальная ЗП
-                8. Средняя ЗП
-                9. Проиндексировать ЗП
-                10. Количество сотрудников в отделе
-                11. Сотрудники, чья ЗП меньше...
-                12. Сотрудники, чья ЗП Больше...
-                13. Найти сотрудника по ID
-                14. Выйти""");
+        employeeBook.showFullNames();
 
-        int mainAction = scanner.nextInt();
-        while (mainAction != 0){
-            switch (mainAction){
-                case 1:{
-                    System.out.println("Введите ФИО, отдел и зарплату:");
-                    String fullName = scanner.nextLine(), department = scanner.nextLine();
-                    int salary = scanner.nextInt();
-                    employeeBook.addEmployee(fullName, department, salary);
-                    break;
-                }
-                case 2:{
-                    System.out.println("Введите ID");
-                    int id = scanner.nextInt();
-                    employeeBook.deleteEmployee(id);
-                    break;
-                }
-                case 3:{
-                    System.out.println("1. Всех сотрудников\n2.Сотрудников из отдела");
-                    int action = scanner.nextInt();
-                    if(action == 1){
-                        System.out.println(employeeBook.getAllEmployees());
-                    } else {
-                        System.out.println("Какой отдел?");
-                        String department = scanner.nextLine();
-                        System.out.println(employeeBook.getAllEmployees(department));
-                    }
-                    break;
-                }
-                case 4:{
-                    employeeBook.showFullNames();
-                    break;
-                }
-                case 5:{
-                    System.out.println("1. Всех сотрудников\n2.Сотрудников из отдела");
-                    int action = scanner.nextInt();
-                    if(action == 1) {
-                        System.out.println("Все расходы на ЗП: \n" + employeeBook.sumOfAllRates());
-                    } else {
-                        System.out.println("Какой отдел?");
-                        String department = scanner.nextLine();
-                        System.out.println("Все расходы на ЗП: \n" + employeeBook.sumOfAllRates(department));
-                    }
-                    break;
-                }
-                case 6:{
-                    System.out.println("1. Всех сотрудников\n2.Сотрудников из отдела");
-                    int action = scanner.nextInt();
-                    if(action == 1){
-                        System.out.println(employeeBook.findMinSalary());
-                    } else {
-                        System.out.println("Какой отдел?");
-                        String department = scanner.nextLine();
-                        System.out.println(employeeBook.findMinSalary(department));
-                    }
-                    break;
-                }
-                case 7:{
-                    System.out.println("1. Всех сотрудников\n2.Сотрудников из отдела");
-                    int action = scanner.nextInt();
-                    if(action == 1){
-                        System.out.println(employeeBook.findMaxSalary());
-                    } else {
-                        System.out.println("Какой отдел?");
-                        String department = scanner.nextLine();
-                        System.out.println(employeeBook.findMaxSalary(department));
-                    }
-                    break;
-                }
-                case 8:{
-                    System.out.println("1. Всех сотрудников\n2.Сотрудников из отдела");
-                    int action = scanner.nextInt();
-                    if(action == 1){
-                        System.out.println(employeeBook.averageSalary());
-                    } else {
-                        System.out.println("Какой отдел?");
-                        String department = scanner.nextLine();
-                        System.out.println(employeeBook.averageSalary(department));
-                    }
-                    break;
-                }
-                case 9:{
-                    System.out.println("1. Всех сотрудников\n2.Сотрудников из отдела");
-                    int action = scanner.nextInt();
-                    System.out.println("На какой процент?");
-                    int index = scanner.nextInt();
-                    if(action == 1){
-                        employeeBook.indexTheSalary(index);
-                    } else {
-                        String department = scanner.nextLine();
-                        employeeBook.indexTheSalary(department, index);
-                    }
-                    break;
-                }
-                case 10:{
-                    System.out.println("В каком отделе?");
-                    String department = scanner.nextLine();
-                    System.out.println(employeeBook.countEmployeesInDepartment(department));
-                    break;
-                }
-                case 11:{
-                    System.out.println("Меньше какой зп?");
-                    int salary = scanner.nextInt();
-                    employeeBook.employeesWithLessSalary(salary);
-                    break;
-                }
-                case 12:{
-                    System.out.println("больше какой зп?");
-                    int salary = scanner.nextInt();
-                    employeeBook.employeesWithMoreSalary(salary);
-                    break;
-                }
-                case 13:{
-                    System.out.println("Введите ID");
-                    int id = scanner.nextInt();
-                    System.out.println(employeeBook.getEmployeeById(id));
-                }
-                case 14:{
-                    mainAction = 0;
-                }
-            }
-        }
+        System.out.println(employeeBook.addEmployee(new Employee("Maxim", "C", 9000)));
+
+        System.out.println("\nВся информация о сотрудниках:");
+        employeeBook.getAllEmployees();
+        System.out.println("\nВся информация о сотрудниках в отделе C:\n" +employeeBook.getAllEmployees("C"));
+
+        System.out.println("\nСумма затрат на зарплату: " + employeeBook.sumOfAllRates());
+        System.out.println("\nСумма затрат на зарплату в отделе A: " + employeeBook.sumOfAllRates("A") + "\n");
+
+        System.out.println(employeeBook.findMinSalary());
+        System.out.println(employeeBook.findMinSalary("B") + "\n");
+
+        System.out.println(employeeBook.findMaxSalary());
+        System.out.println(employeeBook.findMaxSalary("A") + "\n");
+
+        System.out.println("Средняя зарплата: " + employeeBook.averageSalary());
+        System.out.println("Средняя зарплата в отделе C: " + employeeBook.averageSalary("C") + "\n");
+
+        employeeBook.indexTheSalary(15);
+        employeeBook.getAllEmployees();
+        employeeBook.indexTheSalary("A", 10);
+        employeeBook.getAllEmployees();
+
+        System.out.println("Количество сотрудников в отделе C: " + employeeBook.countEmployeesInDepartment("C") + "\n");
+
+        employeeBook.employeesWithMoreSalary(7000);
+        employeeBook.employeesWithLessSalary(4000);
+        System.out.println();
+
+        System.out.println(employeeBook.getEmployeeById(9));
     }
 }

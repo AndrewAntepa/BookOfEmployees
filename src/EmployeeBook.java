@@ -6,13 +6,17 @@ public class EmployeeBook {
     }
 
     //получает всех сотрудников
-    public String getAllEmployees(){
-        if(isNoEmployees()) return "Сотрудники не найдены";
+    public void getAllEmployees(){
+        if(isNoEmployees()) {
+            System.out.println("Сотрудники не найдены");
+            return;
+        }
         StringBuilder allEmployees = new StringBuilder();
         for(Employee employee : employees){
+            if(employee == null) continue;
             allEmployees.append(employee).append("\n");
         }
-        return allEmployees.toString();
+        System.out.println(allEmployees);
     }
     //получает всех сотрудников в отделе
     public String getAllEmployees(String department){
@@ -52,7 +56,7 @@ public class EmployeeBook {
     //минимальная зарплата
     public String findMinSalary(){
         if(isNoEmployees()) return "Сотрудники не найдены";
-        int min = employees[0].getSalary();
+        int min = Integer.MAX_VALUE;
         String employeeWithMinSalary = "";
         for(Employee employee : employees){
             if(employee.getSalary() < min){
@@ -66,7 +70,7 @@ public class EmployeeBook {
     //минимальная зарплата в отделе
     public String findMinSalary(String department){
         if(isNoEmployees()) return "Сотрудники не найдены";
-        int min = employees[0].getSalary();
+        int min = Integer.MAX_VALUE;
         String employeeWithMinSalary = "";
         for(Employee employee : employees){
             if(employee.getSalary() < min && employee.getDepartment().equals(department)){
@@ -125,6 +129,7 @@ public class EmployeeBook {
         else {
             System.out.println("Все сотрудники:");
             for (Employee employee : employees) {
+                if(employee == null) continue;
                 System.out.println(employee.getFullName());
             }
         }
@@ -187,12 +192,14 @@ public class EmployeeBook {
     }
 
     //добавление новых сотрудников
-    public void addEmployee(String fullName, String department, int salary){
+    public boolean addEmployee(Employee employee){
         for(int i = 0; i < employees.length; i++){
             if (employees[i] == null){
-                employees[i] = new Employee(fullName, department, salary);
+                employees[i] = employee;
+                return true;
             }
         }
+        return false;
     }
 
     //удаление сотрудников
@@ -216,10 +223,10 @@ public class EmployeeBook {
 
     public boolean isNoEmployees(){
         for(Employee employee : employees){
-            if (employee == null){
-                return true;
+            if (employee != null){
+                return false;
             }
         }
-        return false;
+        return true;
     }
 }
