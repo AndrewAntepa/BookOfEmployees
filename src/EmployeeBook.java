@@ -1,5 +1,6 @@
 public class EmployeeBook {
     private Employee[] employees;
+    private int size = 0;
 
     public EmployeeBook(int n){
         employees = new Employee[n];
@@ -24,6 +25,7 @@ public class EmployeeBook {
         StringBuilder allEmployees = new StringBuilder();
         allEmployees.append("Сотрудники из отдела ").append(department).append(":");
         for(Employee employee : employees){
+            if(employee == null) continue;
             if(employee.getDepartment().equals(department)){
                 allEmployees.append(employee).append("\n");
             }
@@ -36,6 +38,7 @@ public class EmployeeBook {
         if(isNoEmployees()) return -1;
         int fullRate = 0;
         for(Employee employee : employees){
+            if(employee == null) continue;
             fullRate += employee.getSalary();
         }
         return fullRate;
@@ -46,6 +49,7 @@ public class EmployeeBook {
         if(isNoEmployees()) return -1;
         int fullSalary = 0;
         for(Employee employee : employees){
+            if(employee == null) continue;
             if (employee.getDepartment().equals(department)){
                 fullSalary += employee.getSalary();
             }
@@ -59,6 +63,7 @@ public class EmployeeBook {
         int min = Integer.MAX_VALUE;
         String employeeWithMinSalary = "";
         for(Employee employee : employees){
+            if(employee == null) continue;
             if(employee.getSalary() < min){
                 min = employee.getSalary();
                 employeeWithMinSalary = employee.getFullName() + ", id = " + employee.getId();
@@ -73,6 +78,7 @@ public class EmployeeBook {
         int min = Integer.MAX_VALUE;
         String employeeWithMinSalary = "";
         for(Employee employee : employees){
+            if(employee == null) continue;
             if(employee.getSalary() < min && employee.getDepartment().equals(department)){
                 min = employee.getSalary();
                 employeeWithMinSalary = employee.getFullName() + ", id = " + employee.getId();
@@ -87,6 +93,7 @@ public class EmployeeBook {
         int max = 0;
         String employeeWithMinSalary = "";
         for(Employee employee : employees){
+            if(employee == null) continue;
             if(employee.getSalary() > max){
                 max = employee.getSalary();
                 employeeWithMinSalary = employee.getFullName() + ", id = " + employee.getId();
@@ -101,6 +108,7 @@ public class EmployeeBook {
         int max = 0;
         String employeeWithMinSalary = "";
         for(Employee employee : employees){
+            if(employee == null) continue;
             if(employee.getSalary() > max && employee.getDepartment().equals(department)){
                 max = employee.getSalary();
                 employeeWithMinSalary = employee.getFullName() + ", id = " + employee.getId();
@@ -112,7 +120,7 @@ public class EmployeeBook {
     //средня зп
     public double averageSalary(){
         if(isNoEmployees()) return -1;
-        return (double) sumOfAllRates() / employees.length;
+        return (double) sumOfAllRates() / size;
     }
 
     //средня зп в отделе
@@ -139,6 +147,7 @@ public class EmployeeBook {
     public void indexTheSalary(int index){
         if(isNoEmployees()) return;
         for(Employee employee : employees){
+            if(employee == null) continue;
             int salary = employee.getSalary();
             int newSalary = salary * (100 + index) / 100;
             employee.setSalary(newSalary);
@@ -149,6 +158,7 @@ public class EmployeeBook {
     public void indexTheSalary(String department, int index){
         if(isNoEmployees()) return;
         for(Employee employee : employees){
+            if(employee == null) continue;
             if(employee.getDepartment().equals(department)) {
                 int salary = employee.getSalary();
                 int newSalary = salary * (100 + index) / 100;
@@ -162,6 +172,7 @@ public class EmployeeBook {
         if(isNoEmployees()) return -1;
         int countEmployees = 0;
         for(Employee employee : employees){
+            if(employee == null) continue;
             if(employee.getDepartment().equals(department)){
                 countEmployees++;
             }
@@ -174,6 +185,7 @@ public class EmployeeBook {
         if(isNoEmployees()) return;
         System.out.println("Сотрудники, чья зарплата меньше " + salary + ":");
         for (Employee employee : employees){
+            if(employee == null) continue;
             if(employee.getSalary() < salary){
                 System.out.println(employee.getFullName() + ", id = " + employee.getId() + ", зарплата: " + employee.getSalary());
             }
@@ -185,6 +197,7 @@ public class EmployeeBook {
         if(isNoEmployees()) return;
         System.out.println("Сотрудники, чья зарплата больше " + salary + ":");
         for (Employee employee : employees){
+            if(employee == null) continue;
             if(employee.getSalary() > salary){
                 System.out.println(employee.getFullName() + ", id = " + employee.getId() + ", зарплата: " + employee.getSalary());
             }
@@ -196,6 +209,7 @@ public class EmployeeBook {
         for(int i = 0; i < employees.length; i++){
             if (employees[i] == null){
                 employees[i] = employee;
+                size++;
                 return true;
             }
         }
@@ -207,9 +221,11 @@ public class EmployeeBook {
         for(int i = 0; i < employees.length; i++){
             if(employees[i].getId() == id){
                 employees[i] = null;
-                break;
+                size--;
+                return;
             }
         }
+        throw new RuntimeException("Сотрудник с этим id не найден");
     }
 
     public String getEmployeeById(int id){
@@ -218,7 +234,7 @@ public class EmployeeBook {
                 return employee.toString();
             }
         }
-        return "Сотрудников нет";
+        return "Сотрудника с таким id нет";
     }
 
     public boolean isNoEmployees(){
@@ -228,5 +244,9 @@ public class EmployeeBook {
             }
         }
         return true;
+    }
+
+    public int getAmountOfEmployees() {
+        return size;
     }
 }
